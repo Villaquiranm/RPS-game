@@ -4,6 +4,7 @@ import (
 	"RPS_gaming/server/game/logic"
 	"RPS_gaming/server/model"
 	"RPS_gaming/server/moves"
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
@@ -15,8 +16,16 @@ func NewGame() *Game {
 	return &Game{}
 }
 
-func (g *Game) compare(p1 moves.Move, p2 moves.Move) model.Result {
-	return logic.ResultsTable[p1.Index()][p2.Index()]
+func (g *Game) compare(p1 moves.Move, p2 moves.Move) string {
+	result := logic.ResultsTable[p1.Index()][p2.Index()]
+	switch result {
+	case model.Loss:
+		return "Player 2"
+	case model.Win:
+		return "Player 1"
+	default:
+		return ""
+	}
 }
 
 func (g *Game) PlayerVsComputer(w http.ResponseWriter, r *http.Request) {
@@ -33,37 +42,35 @@ func (g *Game) PlayerVsComputer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	p1 := moves.NewWithIndex(index)
-	result := g.compare(p1, moves.NewAleatory())
-
-	if result == model.Loss {
-		w.Write([]byte("You loss"))
-		w.WriteHeader(http.StatusOK)
+	p2 := moves.NewAleatory()
+	response := model.GameResult{
+		P1Move: logic.MovesNames[p1.Index()],
+		P2Move: logic.MovesNames[p2.Index()],
+		Winner: g.compare(p1, p2),
 	}
-	if result == model.Win {
-		w.Write([]byte("You WIN"))
-		w.WriteHeader(http.StatusOK)
+	data, err := json.Marshal(response)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintf(`{"err":"%s"}`, err.Error())))
+		return
 	}
-	if result == model.Draw {
-		w.Write([]byte("a draw"))
-		w.WriteHeader(http.StatusOK)
-	}
+	w.Write(data)
 }
 
 func (g *Game) ComputerVsComputer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	c1 := moves.NewAleatory()
 	c2 := moves.NewAleatory()
-	result := g.compare(c1, c2)
-	if result == model.Loss {
-		w.Write([]byte("Computer 2 wins"))
-		w.WriteHeader(http.StatusOK)
+	response := model.GameResult{
+		P1Move: logic.MovesNames[c1.Index()],
+		P2Move: logic.MovesNames[c2.Index()],
+		Winner: g.compare(c1, c2),
 	}
-	if result == model.Win {
-		w.Write([]byte("Computer 1 wins"))
-		w.WriteHeader(http.StatusOK)
+	data, err := json.Marshal(response)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte(fmt.Sprintf(`{"err":"%s"}`, err.Error())))
+		return
 	}
-	if result == model.Draw {
-		w.Write([]byte("a draw"))
-		w.WriteHeader(http.StatusOK)
-	}
+	w.Write(data)
 }

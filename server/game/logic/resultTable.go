@@ -17,6 +17,12 @@ var PossibleMoves = map[string]int{
 	"scissors": SCISSORS,
 }
 
+var MovesNames = map[int]string{
+	ROCK:     "rock",
+	PAPER:    "paper",
+	SCISSORS: "scissors",
+}
+
 // Results table will have the Result of every move index each possible move have an index
 // this variable will have map[int] inside another map[int]model.Result
 // The litlest index correspond to the first map key and the biggest to the other one

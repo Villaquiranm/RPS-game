@@ -1,18 +1,18 @@
 <template>
   <div id="app">
-    <HelloWorld />
+    <Computer />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/Computer.vue'
+import Computer from "./components/Computer.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Computer,
+  },
+};
 </script>
 
 <style>
