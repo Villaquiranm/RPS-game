@@ -2,12 +2,17 @@ package main
 
 import (
 	"RPS_gaming/server/game"
+	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
+	router := mux.NewRouter()
 	game := game.NewGame()
-	http.HandleFunc("/play", game.PlayerVsComputer)
-	http.HandleFunc("/watch", game.ComputerVsComputer)
-	http.ListenAndServe(":8080", nil)
+	router.HandleFunc("/play", game.PlayerVsComputer)
+	router.HandleFunc("/watch", game.ComputerVsComputer)
+
+	log.Fatal(http.ListenAndServe(":3000", router))
 }

@@ -20,6 +20,7 @@ func (g *Game) compare(p1 moves.Move, p2 moves.Move) model.Result {
 }
 
 func (g *Game) PlayerVsComputer(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	option := r.URL.Query().Get("option")
 	index, ok := logic.PossibleMoves[option]
 	if !ok {
@@ -33,6 +34,7 @@ func (g *Game) PlayerVsComputer(w http.ResponseWriter, r *http.Request) {
 	}
 	p1 := moves.NewWithIndex(index)
 	result := g.compare(p1, moves.NewAleatory())
+
 	if result == model.Loss {
 		w.Write([]byte("You loss"))
 		w.WriteHeader(http.StatusOK)
@@ -48,6 +50,7 @@ func (g *Game) PlayerVsComputer(w http.ResponseWriter, r *http.Request) {
 }
 
 func (g *Game) ComputerVsComputer(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	c1 := moves.NewAleatory()
 	c2 := moves.NewAleatory()
 	result := g.compare(c1, c2)
