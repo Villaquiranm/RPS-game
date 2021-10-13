@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"RPS_gaming/server/model"
+	"RPS_gaming/model"
 )
 
 const (

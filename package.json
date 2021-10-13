@@ -1,0 +1,22 @@
+{
+  "name": "rps_game",
+  "version": "1.0.0",
+  "description": "This application is composed of two services, the front-ent component developed on vueJS and the backend service running on Golang.",
+  "scripts": {
+    "pretest":"go get golang.org/x/tools/cmd/cover",
+    "test": "cd server && go test -coverprofile fmtcoverage.html ./...",
+    "front": "cd rps-ui && npm run serve",
+    "preapi": "cd server && go build -o server.bin",
+    "api": "cd server && server.bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Villaquiranm/RPS-game.git"
+  },
+  "author": "Miguel Victoria",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Villaquiranm/RPS-game/issues"
+  },
+  "homepage": "https://github.com/Villaquiranm/RPS-game#readme"
+}

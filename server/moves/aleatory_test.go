@@ -1,7 +1,7 @@
 package moves
 
 import (
-	"RPS_gaming/server/game/logic"
+	"RPS_gaming/game/logic"
 	"testing"
 )
 

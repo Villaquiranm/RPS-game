@@ -1,10 +1,13 @@
 <template>
   <div class="container">
-    <h1>Player vs computer</h1>
-    <div class="game-container">
+    <h1 v-text="playText"></h1>
+    <div class="flex">
+        <button v-on:click="changeMode" v-text="buttonText">Let's Go</button>
+      </div>
+    <div class="game-container" v-if="play">
       <h3>Rock Paper Scissors game, please chose one option</h3>
       <div class="flex">
-        <Dropdown
+        <Dropdown 
           class="list"
           :options="[
             { id: 1, name: 'rock' },
@@ -18,6 +21,12 @@
         >
         </Dropdown>
       </div>
+      <div class="flex">
+        <button v-on:click="send" :disabled="selectedOption === ''">Let's Go</button>
+      </div>
+    </div>
+    <div class="game-container" v-if="!play">
+      <h3 >Rock Paper Scissors game, hit the button to simulate a game</h3>
       <div class="flex">
         <button v-on:click="send">Let's Go</button>
       </div>
@@ -47,16 +56,33 @@
 import Dropdown from "vue-simple-search-dropdown";
 import axios from "axios";
 export default {
-  name: "HelloWorld",
+  name: "Computer",
   props: {
     msg: String,
   },
   data: function() {
     return {
-      selectedOption: "",
+      selectedOption: '',
       fetchedData: false,
       information: {},
+      play: true,
     };
+  },
+  computed:{
+    playText() {
+      if (this.play) {
+        return 'Player vs Computer'
+      } else {
+        return 'Computer vs Computer'
+      }
+    },
+    buttonText() {
+      if (this.play) {
+        return 'Watch a game'
+      } else {
+        return 'Play'
+      }
+    }
   },
   components: {
     Dropdown,
@@ -64,20 +90,33 @@ export default {
   methods: {
     send: async function() {
       this.information = await this.getEvents(this.selectedOption);
-      console.log(this.information);
       this.fetchedData = true;
     },
     clear: function() {
       this.information = {};
       this.fetchedData = false;
     },
+    changeMode: function() {
+      this.play = !this.play
+      this.information = {};
+      this.fetchedData = false;
+    },
     selectOption: function(event) {
-      this.selectedOption = event.name;
+      if (event.name){
+        this.selectedOption = event.name;
+      }
     },
     getEvents: async function(selectOption) {
-      let res = await axios.get(
-        `http://127.0.0.1:3000/play?option=${selectOption}`
-      );
+      let res = {}
+      if (this.play) {
+        res = await axios.get(
+          `http://127.0.0.1:3000/play?option=${selectOption}`
+        );
+      } else {
+        res = await axios.get(
+          `http://127.0.0.1:3000/watch`
+        );
+      }
       return res.data;
     },
   },
@@ -115,5 +154,6 @@ tr {
 button {
   margin-left: auto;
   margin-right: auto;
+  min-width: 100px;
 }
 </style>

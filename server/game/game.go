@@ -1,9 +1,10 @@
 package game
 
 import (
-	"RPS_gaming/server/game/logic"
-	"RPS_gaming/server/model"
-	"RPS_gaming/server/moves"
+	"RPS_gaming/game/constants"
+	"RPS_gaming/game/logic"
+	"RPS_gaming/model"
+	"RPS_gaming/moves"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -20,9 +21,9 @@ func (g *Game) compare(p1 moves.Move, p2 moves.Move) string {
 	result := logic.ResultsTable[p1.Index()][p2.Index()]
 	switch result {
 	case model.Loss:
-		return "Player 2"
+		return constants.PLAYER_2_WINS
 	case model.Win:
-		return "Player 1"
+		return constants.PLAYER_1_WINS
 	default:
 		return ""
 	}
@@ -34,7 +35,7 @@ func (g *Game) PlayerVsComputer(w http.ResponseWriter, r *http.Request) {
 	index, ok := logic.PossibleMoves[option]
 	if !ok {
 		res := "Unkown option, possible options are:"
-		for option, _ := range logic.PossibleMoves {
+		for option := range logic.PossibleMoves {
 			res += fmt.Sprintf(" %s", option)
 		}
 		w.Write([]byte(res))
