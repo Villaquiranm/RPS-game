@@ -43,5 +43,6 @@ Go to the docker/ folder and execute `docker-compose up` or `docker-compose up` 
 ## Remaining work (TO-DO)
 
 - [ ] Improve coverage tests
-- [ ] Change the way we compute who wins and losses a game [useful link]()
+- [ ] Change the way we compute who wins and losses a game [useful link](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Rock_Paper_Scissors_Lizard_Spock_en.svg/400px-Rock_Paper_Scissors_Lizard_Spock_en.svg.png)
 - [ ] Add one extension to the game
+
