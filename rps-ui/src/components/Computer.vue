@@ -2,17 +2,19 @@
   <div class="container">
     <h1 v-text="playText"></h1>
     <div class="flex">
-        <button v-on:click="changeMode" v-text="buttonText">Let's Go</button>
-      </div>
+      <button v-on:click="changeMode" v-text="buttonText">Let's Go</button>
+    </div>
     <div class="game-container" v-if="play">
       <h3>Rock Paper Scissors game, please chose one option</h3>
       <div class="flex">
-        <Dropdown 
+        <Dropdown
           class="list"
           :options="[
-            { id: 1, name: 'rock' },
-            { id: 2, name: 'paper' },
-            { id: 3, name: 'scissors' },
+            { id: 1, name: 'Rock' },
+            { id: 2, name: 'Paper' },
+            { id: 3, name: 'Scissors' },
+            { id: 4, name: 'Spock' },
+            { id: 5, name: 'Lizard' },
           ]"
           :disabled="false"
           :maxItem="10"
@@ -22,11 +24,13 @@
         </Dropdown>
       </div>
       <div class="flex">
-        <button v-on:click="send" :disabled="selectedOption === ''">Let's Go</button>
+        <button v-on:click="send" :disabled="selectedOption === ''">
+          Let's Go
+        </button>
       </div>
     </div>
     <div class="game-container" v-if="!play">
-      <h3 >Rock Paper Scissors game, hit the button to simulate a game</h3>
+      <h3>Rock Paper Scissors game, hit the button to simulate a game</h3>
       <div class="flex">
         <button v-on:click="send">Let's Go</button>
       </div>
@@ -60,62 +64,60 @@ export default {
   props: {
     msg: String,
   },
-  data: function() {
+  data: function () {
     return {
-      selectedOption: '',
+      selectedOption: "",
       fetchedData: false,
       information: {},
       play: true,
     };
   },
-  computed:{
+  computed: {
     playText() {
       if (this.play) {
-        return 'Player vs Computer'
+        return "Player vs Computer";
       } else {
-        return 'Computer vs Computer'
+        return "Computer vs Computer";
       }
     },
     buttonText() {
       if (this.play) {
-        return 'Watch a game'
+        return "Watch a game";
       } else {
-        return 'Play'
+        return "Play";
       }
-    }
+    },
   },
   components: {
     Dropdown,
   },
   methods: {
-    send: async function() {
+    send: async function () {
       this.information = await this.getEvents(this.selectedOption);
       this.fetchedData = true;
     },
-    clear: function() {
+    clear: function () {
       this.information = {};
       this.fetchedData = false;
     },
-    changeMode: function() {
-      this.play = !this.play
+    changeMode: function () {
+      this.play = !this.play;
       this.information = {};
       this.fetchedData = false;
     },
-    selectOption: function(event) {
-      if (event.name){
+    selectOption: function (event) {
+      if (event.name) {
         this.selectedOption = event.name;
       }
     },
-    getEvents: async function(selectOption) {
-      let res = {}
+    getEvents: async function (selectOption) {
+      let res = {};
       if (this.play) {
         res = await axios.get(
           `http://127.0.0.1:3000/play?option=${selectOption}`
         );
       } else {
-        res = await axios.get(
-          `http://127.0.0.1:3000/watch`
-        );
+        res = await axios.get(`http://127.0.0.1:3000/watch`);
       }
       return res.data;
     },

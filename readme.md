@@ -21,16 +21,14 @@ All these commands should be run from the root folder:
 
   ```
   ?       RPS_gaming      [no test files]
-  ok      RPS_gaming/game 0.569s  coverage: 17.1% of statements
+  ok      RPS_gaming/game 0.005s  coverage: 82.2% of statements
   ?       RPS_gaming/game/constants       [no test files]
   ?       RPS_gaming/game/logic   [no test files]
   ?       RPS_gaming/model        [no test files]
-  ok      RPS_gaming/moves        1.168s  coverage: 80.0% of statements
+  ok      RPS_gaming/moves        0.003s  coverage: 80.0% of statements
   ```
 
 ## Running on Docker
-
-Comming soon...
 
 #### Requirements
 
@@ -42,7 +40,6 @@ Go to the docker/ folder and execute `docker-compose up` or `docker-compose up` 
 
 ## Remaining work (TO-DO)
 
-- [ ] Improve coverage tests
-- [ ] Change the way we compute who wins and losses a game [useful link](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Rock_Paper_Scissors_Lizard_Spock_en.svg/400px-Rock_Paper_Scissors_Lizard_Spock_en.svg.png)
-- [ ] Add one extension to the game
-
+- [x] Improve coverage tests
+- [x] Change the way we compute who wins and losses a game [useful link](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Rock_Paper_Scissors_Lizard_Spock_en.svg/400px-Rock_Paper_Scissors_Lizard_Spock_en.svg.png)
+- [x] Add one extension to the game
